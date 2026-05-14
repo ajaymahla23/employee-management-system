@@ -1,0 +1,90 @@
+
+<!-- Toast component inject kijiye -->
+<app-toast></app-toast>
+
+<nav
+  style="
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    padding: 20px 40px;
+    box-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.05),
+      0 1px 2px rgba(0, 0, 0, 0.03);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 6px;
+  "
+>
+  <div style="display: flex; align-items: center; gap: 8px">
+    <span
+      style="
+        background: #3b82f6;
+        color: white;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-weight: 700;
+        font-size: 16px;
+        letter-spacing: 0.5px;
+      "
+      >EMS</span
+    >
+    <span style="font-weight: 700; font-size: 18px; color: #ffff; letter-spacing: -0.5px"
+      >Dashboard</span
+    >
+  </div>
+
+  <div style="display: flex; gap: 32px">
+    <a
+      routerLink="/"
+      routerLinkActive="active-link"
+      style="
+        color: #ffff;
+        font-weight: 500;
+        text-decoration: none;
+        font-size: 16px;
+        transition: color 0.2s;
+      "
+      >Home</a
+    >
+    <a
+      routerLink="/list"
+      routerLinkActive="active-link"
+      style="
+        color: #ffff;
+        font-weight: 500;
+        text-decoration: none;
+        font-size: 16px;
+        transition: color 0.2s;
+      "
+      >Employee Directory</a
+    >
+    <a
+      routerLink="/add"
+      routerLinkActive="active-link"
+      style="
+        color: #ffff;
+        font-weight: 500;
+        text-decoration: none;
+        font-size: 16px;
+        transition: color 0.2s;
+      "
+      >Add Employee</a
+    >
+  </div>
+</nav>
+
+<style>
+  a:hover {
+    color: #1e293b !important;
+  }
+  .active-link {
+    color: #3b82f6 !important;
+    font-weight: 600 !important;
+    border-bottom: 2px solid #3b82f6;
+    padding-bottom: 4px;
+  }
+</style>
+
+<div style="max-width: 1200px; margin: 40px auto; padding: 0 24px">
+  <router-outlet></router-outlet>
+</div>

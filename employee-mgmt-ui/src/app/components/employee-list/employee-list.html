@@ -1,0 +1,406 @@
+<div
+  style="
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04);
+    border: 1px solid #e2e8f0;
+    padding: 25px;
+    animation: fadeIn 0.4s ease-out;
+    font-family: 'Inter', sans-serif;
+  "
+>
+  <!-- Section Title & Search Utilities -->
+  <div
+    style="
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      gap: 16px;
+    "
+  >
+    <div>
+      <h2
+        style="font-size: 22px; font-weight: 800; color: #0f172a; margin: 0; letter-spacing: -0.5px"
+      >
+        Active Staff Registries
+      </h2>
+      <p style="margin: 4px 0 0 0; font-size: 13px; color: #64748b">
+        Manage and update profile structures dynamically.
+      </p>
+    </div>
+
+    <div style="position: relative">
+      <span style="position: absolute; left: 14px; top: 12px; color: #94a3b8; font-size: 14px"
+        >🔍</span
+      >
+      <input
+        type="text"
+        [(ngModel)]="searchDept"
+        (input)="loadEmployees()"
+        placeholder="Filter by Department..."
+        style="
+          padding: 10px 16px 10px 38px;
+          width: 280px;
+          border: 1px solid #cbd5e1;
+          border-radius: 10px;
+          font-size: 14px;
+          outline: none;
+          transition: all 0.2s ease;
+          background: #f8fafc;
+        "
+        onfocus="
+          this.style.borderColor = '#3b82f6';
+          this.style.background = '#fff';
+          this.style.boxShadow = '0 0 0 3px rgba(59,130,246,0.1)';
+        "
+        onblur="
+          this.style.borderColor = '#cbd5e1';
+          this.style.background = '#f8fafc';
+          this.style.boxShadow = 'none';
+        "
+      />
+    </div>
+  </div>
+
+  <!-- Modern Enterprise Data Table Wrapper -->
+  <div style="overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 12px">
+    <table style="width: 100%; border-collapse: separate; border-spacing: 0; min-width: 700px">
+      <thead>
+        <tr style="background: #f8fafc; text-align: left">
+          <th
+            style="
+              padding: 16px;
+              font-size: 12px;
+              font-weight: 700;
+              color: #475569;
+              text-transform: uppercase;
+              letter-spacing: 0.5px;
+              cursor: pointer;
+              border-bottom: 2px solid #e2e8f0;
+            "
+            (click)="sortData('name')"
+          >
+            Name
+            <span style="font-size: 11px; margin-left: 4px">{{
+              sortBy === 'name' ? (sortDir === 'asc' ? '🔼' : '🔽') : '↕'
+            }}</span>
+          </th>
+          <th
+            style="
+              padding: 16px;
+              font-size: 12px;
+              font-weight: 700;
+              color: #475569;
+              text-transform: uppercase;
+              letter-spacing: 0.5px;
+              cursor: pointer;
+              border-bottom: 2px solid #e2e8f0;
+            "
+            (click)="sortData('email')"
+          >
+            Email ID
+            <span style="font-size: 11px; margin-left: 4px">{{
+              sortBy === 'email' ? (sortDir === 'asc' ? '🔼' : '🔽') : '↕'
+            }}</span>
+          </th>
+          <th
+            style="
+              padding: 16px;
+              font-size: 12px;
+              font-weight: 700;
+              color: #475569;
+              text-transform: uppercase;
+              letter-spacing: 0.5px;
+              cursor: pointer;
+              border-bottom: 2px solid #e2e8f0;
+            "
+            (click)="sortData('department')"
+          >
+            Department
+            <span style="font-size: 11px; margin-left: 4px">{{
+              sortBy === 'department' ? (sortDir === 'asc' ? '🔼' : '🔽') : '↕'
+            }}</span>
+          </th>
+          <th
+            style="
+              padding: 16px;
+              font-size: 12px;
+              font-weight: 700;
+              color: #475569;
+              text-transform: uppercase;
+              letter-spacing: 0.5px;
+              cursor: pointer;
+              border-bottom: 2px solid #e2e8f0;
+            "
+            (click)="sortData('salary')"
+          >
+            Compensation
+            <span style="font-size: 11px; margin-left: 4px">{{
+              sortBy === 'salary' ? (sortDir === 'asc' ? '🔼' : '🔽') : '↕'
+            }}</span>
+          </th>
+          <th
+            style="
+              padding: 16px;
+              font-size: 12px;
+              font-weight: 700;
+              color: #475569;
+              text-transform: uppercase;
+              letter-spacing: 0.5px;
+              border-bottom: 2px solid #e2e8f0;
+              text-align: center;
+            "
+          >
+            Actions
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngIf="employees">
+          <tr
+            *ngFor="let e of employees(); let i = index"
+            [style.background]="i % 2 === 0 ? '#ffffff' : '#f8fafc/50'"
+            style="transition: background 0.15s"
+            onmouseover="this.style.background = '#f1f5f9'"
+            onmouseout="this.style.background = ''"
+          >
+            <td
+              style="
+                padding: 16px;
+                font-size: 14px;
+                font-weight: 600;
+                color: #0f172a;
+                border-bottom: 1px solid #e2e8f0;
+              "
+            >
+              {{ e.name }}
+            </td>
+            <td
+              style="
+                padding: 16px;
+                font-size: 14px;
+                color: #64748b;
+                border-bottom: 1px solid #e2e8f0;
+              "
+            >
+              {{ e.email }}
+            </td>
+            <td style="padding: 16px; border-bottom: 1px solid #e2e8f0">
+              <span
+                style="
+                  padding: 6px 12px;
+                  border-radius: 6px;
+                  font-weight: 700;
+                  font-size: 11px;
+                  letter-spacing: 0.3px;
+                "
+                [style.background]="
+                  e.department === 'IT' ? '#eff6ff' : e.department === 'HR' ? '#fdf2f8' : '#f0fdf4'
+                "
+                [style.color]="
+                  e.department === 'IT' ? '#2563eb' : e.department === 'HR' ? '#db2777' : '#16a34a'
+                "
+              >
+                {{ e.department | uppercase }}
+              </span>
+            </td>
+
+            <td
+              style="
+                padding: 16px;
+                font-size: 14px;
+                font-weight: 700;
+                color: #0f172a;
+                border-bottom: 1px solid #e2e8f0;
+              "
+            >
+              <div *ngIf="editingEmployeeId !== e.id">
+                {{ e.salary | currency: 'INR' : 'symbol' : '1.0-0' }}
+              </div>
+              <div *ngIf="editingEmployeeId === e.id">
+                <input
+                  type="number"
+                  [(ngModel)]="updatedSalaryValue"
+                  min="1"
+                  style="
+                    padding: 8px 12px;
+                    width: 130px;
+                    border: 2px solid #3b82f6;
+                    border-radius: 8px;
+                    outline: none;
+                    font-size: 13px;
+                    font-weight: 600;
+                    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+                  "
+                />
+              </div>
+            </td>
+
+            <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; text-align: center">
+              <div *ngIf="editingEmployeeId !== e.id">
+                <button
+                  (click)="startEdit(e)"
+                  style="
+                    background: transparent;
+                    color: #3b82f6;
+                    border: 1px solid #e2e8f0;
+                    padding: 8px 14px;
+                    border-radius: 8px;
+                    font-size: 13px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                  "
+                  onmouseover="
+                    this.style.background = '#3b82f6';
+                    this.style.color = '#fff';
+                    this.style.borderColor = '#3b82f6';
+                  "
+                  onmouseout="
+                    this.style.background = 'transparent';
+                    this.style.color = '#3b82f6';
+                    this.style.borderColor = '#e2e8f0';
+                  "
+                >
+                  Edit Salary
+                </button>
+              </div>
+              <div
+                *ngIf="editingEmployeeId === e.id"
+                style="display: flex; gap: 8px; justify-content: center"
+              >
+                <button
+                  (click)="saveSalary(e.id!)"
+                  style="
+                    background: #10b981;
+                    color: white;
+                    border: none;
+                    padding: 8px 14px;
+                    border-radius: 8px;
+                    font-size: 13px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
+                  "
+                >
+                  Save
+                </button>
+                <button
+                  (click)="cancelEdit()"
+                  style="
+                    background: #f1f5f9;
+                    color: #475569;
+                    border: 1px solid #cbd5e1;
+                    padding: 8px 14px;
+                    border-radius: 8px;
+                    font-size: 13px;
+                    font-weight: 600;
+                    cursor: pointer;
+                  "
+                >
+                  Cancel
+                </button>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+
+        <!-- No Records Placeholder -->
+        <!-- <tr *ngIf="employees() && employees.length === 0">
+          <td colspan="5" style="text-align: center; padding: 50px; color: #94a3b8; font-size: 14px; font-weight: 500;">
+            <div style="font-size: 24px; margin-bottom: 8px;">📭</div>
+            No active workforce entries detected in this parameters scope.
+          </td>
+        </tr> -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modern Controls Footer Block -->
+  <div
+    style="
+      margin-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    "
+  >
+    <span style="font-size: 14px; color: #64748b; font-weight: 500">
+      Showing page <strong style="color: #0f172a">{{ page + 1 }}</strong> of {{ totalPages }}
+    </span>
+
+    <div style="display: flex; gap: 8px">
+      <button
+        (click)="changePage(-1)"
+        [disabled]="page === 0"
+        style="
+          padding: 8px 16px;
+          background: #ffffff;
+          border: 1px solid #cbd5e1;
+          border-radius: 8px;
+          cursor: pointer;
+          font-size: 13px;
+          font-weight: 600;
+          color: #334155;
+          transition: all 0.15s;
+        "
+        [style.opacity]="page === 0 ? '0.5' : '1'"
+        [style.cursor]="page === 0 ? 'not-allowed' : 'pointer'"
+        onmouseover="
+          if (!this.disabled) {
+            this.style.background = '#f8fafc';
+            this.style.borderColor = '#cbd5e1';
+          }
+        "
+        onmouseout="this.style.background = '#fff'"
+      >
+        ← Previous
+      </button>
+      <button
+        (click)="changePage(1)"
+        [disabled]="page >= totalPages - 1"
+        style="
+          padding: 8px 16px;
+          background: #ffffff;
+          border: 1px solid #cbd5e1;
+          border-radius: 8px;
+          cursor: pointer;
+          font-size: 13px;
+          font-weight: 600;
+          color: #334155;
+          transition: all 0.15s;
+        "
+        [style.opacity]="page >= totalPages - 1 ? '0.5' : '1'"
+        [style.cursor]="page >= totalPages - 1 ? 'not-allowed' : 'pointer'"
+        onmouseover="
+          if (!this.disabled) {
+            this.style.background = '#f8fafc';
+            this.style.borderColor = '#cbd5e1';
+          }
+        "
+        onmouseout="this.style.background = '#fff'"
+      >
+        Next →
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
